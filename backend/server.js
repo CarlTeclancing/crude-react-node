@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   database: "crude",
 });
 
-app.get("/", (req, res) => {
+app.get("/students", (req, res) => {
   const sql = "SELECT * FROM student";
   db.query(sql, (err, data) => {
     if (err) {
