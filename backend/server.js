@@ -4,6 +4,8 @@ const mysql = require("mysql");
 
 const app = express();
 
+// ✅ Middleware to parse JSON bodies
+app.use(express.json());
 app.use(cors());
 
 const db = mysql.createConnection({
@@ -19,6 +21,22 @@ app.get("/students", (req, res) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Database error", details: err });
+    }
+    return res.json(data);
+  });
+});
+
+app.post('/create', (req, res) => {
+  const sql = "INSERT INTO student (`name`, `email`) VALUES (?)";
+  const values = [
+    req.body.name,
+    req.body.email
+  ];
+
+  db.query(sql, [values], (err, data) => {
+    if (err) {
+      console.error("Insert error:", err);
+      return res.status(500).json({ error: "Insert error", details: err });
     }
     return res.json(data);
   });
