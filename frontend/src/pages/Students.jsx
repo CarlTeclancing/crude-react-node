@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import { Link } from 'react-router-dom';
+
 
 const STUDENT_URL = 'http://localhost:8081/students';
 
-function App() {
+function Students() {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorFetching, setErrorFetching] = useState('');
+  const [activeStudent, setActiveStudent] = useState('');
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -45,7 +47,11 @@ function App() {
 
   return (
     <div className="container">
-      <button className="btn primary">Add Student</button>
+        <Link
+            to={"/add"}
+        >
+            <button className="btn primary">Add Student</button>
+        </Link>
       <table>
         <thead>
           <tr>
@@ -62,7 +68,14 @@ function App() {
               <td>{student.name}</td>
               <td>{student.email}</td>
               <td>
-                <button className="btn update">Update</button>
+
+                <Link
+                    state = {student}
+                    to={'./edit'}
+                >
+                    <button className="btn update">Update</button>
+                
+                </Link>
                 <button className="btn delete">Delete</button>
               </td>
             </tr>
@@ -73,4 +86,4 @@ function App() {
   );
 }
 
-export default App;
+export default Students;
