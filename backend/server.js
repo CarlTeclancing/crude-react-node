@@ -59,6 +59,21 @@ app.post('/update', (req, res) => {
       return res.json(data);
     });
   });
+
+
+  app.post('/delete', (req, res) => {
+    const sql = "DELETE FROM student WHERE id = ?";
+    const values = [req.body.id];
+  
+    db.query(sql, values, (err, data) => {
+      if (err) {
+        console.error("Delete error:", err);
+        return res.status(500).json({ error: "Delete error", details: err });
+      }
+      return res.json({ message: "Student deleted successfully", data });
+    });
+  });
+  
   
 
 app.listen(8081, () => {

@@ -1,15 +1,31 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const deleteEntry = (event)=>{
+function DeleteEntry() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { state: student } = location || {};
 
-    const [id, setId] = useState("");
-    const navigate = useNavigate();
+  const [id, setId] = useState("");
 
-    axios.post('http://localhost:8081/create', {name, email})
-    .then(res =>{
-        console.log(res);
-        navigate("/");
-    }).catch(err => console.log(err))
-    console.log(name);  
+  useEffect(() => {
+    if (student && student.id) {
+      setId(student.id);
+
+      // Call delete when ID is set
+      axios.post('http://localhost:8081/delete', { id: student.id })
+        .then(res => {
+          console.log("Deleted:", res.data);
+          navigate("/");
+        })
+        .catch(err => {
+          console.error("Delete failed:", err);
+        });
+    }
+  }, [student, navigate]);
+
+  return null; // nothing to render
 }
+
+export default DeleteEntry;

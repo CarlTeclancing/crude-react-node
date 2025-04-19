@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 
+
 const STUDENT_URL = 'http://localhost:8081/students';
 
 function Students() {
@@ -36,6 +37,7 @@ function Students() {
 
     fetchStudents();
   }, []);
+
 
   if (isLoading) {
     return <h1>Fetching data...</h1>;
@@ -76,7 +78,14 @@ function Students() {
                     <button className="btn update">Update</button>
                 
                 </Link>
-                <button className="btn delete">Delete</button>
+
+                <Link
+                    state = {student}
+                    to={'./delete'}
+                   > 
+                    <button 
+                        className="btn delete">Delete</button>
+                </Link>
               </td>
             </tr>
           ))}
