@@ -42,6 +42,25 @@ app.post('/create', (req, res) => {
   });
 });
 
+
+app.post('/update', (req, res) => {
+    const sql = "UPDATE student SET name = ?, email = ? WHERE id = ?";
+    const values = [
+      req.body.name,
+      req.body.email,
+      req.body.id
+    ];
+  
+    db.query(sql, values, (err, data) => {
+      if (err) {
+        console.error("Update error:", err);
+        return res.status(500).json({ error: "Update error", details: err });
+      }
+      return res.json(data);
+    });
+  });
+  
+
 app.listen(8081, () => {
   console.log("Server listening on port 8081");
 });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function Edit() {
   const location = useLocation();
@@ -7,10 +8,12 @@ function Edit() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [id, setId] = useState("");
 
   // Set form state from student prop
   useEffect(() => {
     if (student) {
+      setId(student.id || "");
       setName(student.name || '');
       setEmail(student.email || '');
     }
@@ -18,8 +21,14 @@ function Edit() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Updated Info:', { name, email });
+    console.log('Updated Info:', {id, name, email });
     // Add your API update logic here
+    axios.post('http://localhost:8081/update', {id, name, email})
+    .then(res =>{
+        console.log(res);
+        navigate("/");
+    }).catch(err => console.log(err))
+    console.log(name);
   };
 
   if (!student) {
